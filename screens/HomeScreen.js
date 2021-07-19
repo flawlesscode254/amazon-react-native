@@ -27,7 +27,6 @@ const HomeScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => (
                 <TouchableOpacity onPress={() => navigation.navigate("Product", {
-                    id: item.id,
                     image: item.image,
                     description: item.description,
                     price: item.price

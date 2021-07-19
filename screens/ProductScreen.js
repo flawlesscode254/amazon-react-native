@@ -3,14 +3,14 @@ import { StyleSheet, View } from 'react-native'
 import Product from '../components/Product'
 
 const ProductScreen = ({ route }) => {
-    const {id, description, price} = route.params
+    const { description, price, image} = route.params
 
     return (
         <View>
-            <Product 
-                id={id}
+            <Product
                 description={description}
                 price={price}
+                image={image}
             />
         </View>
     )

@@ -1,15 +1,34 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions } from "react-native";
+import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import Quantity from "./Quantity";
 import CarouselImage from "./CarouselImage";
 import db from '../firebase'
 
-const Product = ({ id, description, price }) => {
+const Product = ({ image, description, price }) => {
   const [selected, setSelected] = useState("Blue");
   const [data, setData] = useState([])
   const [active, setActive] = useState(0)
+  const [num, setNum] = useState(1)
+
+  const addQuantity = () => {
+      setNum(num + 1)
+  }
+
+  const minusQuantity = () => {
+      if (num !== 0) {
+          setNum(num - 1)
+      }
+  }
+
+  const addToCart = () => {
+    db.collection("carts").add({
+      image: image,
+      description: description,
+      price: price,
+      quantity: num
+    })
+  }
 
   const onFlatlistChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -202,8 +221,51 @@ const Product = ({ id, description, price }) => {
           </Picker>
         </View>
 
-        <Quantity />
+        <View>
+            <Text style={{
+            marginBottom: 5
+        }}>Quantity:</Text>
 
+        <View style={{
+            marginBottom: 15,
+            flexDirection: "row"
+        }}>
+            <TouchableOpacity onPress={minusQuantity}>
+                <View style={{
+                    backgroundColor: "#9d9fa1",
+                    paddingVertical: 5,
+                    paddingHorizontal: 20,
+                    borderWidth: 0.5,
+                    borderTopLeftRadius: 5,
+                    borderBottomLeftRadius: 5
+                }}>
+                    <Text>-</Text>
+                </View>
+            </TouchableOpacity>
+            <View style={{
+                backgroundColor: "#FFF",
+                paddingVertical: 5,
+                paddingHorizontal: 30,
+                borderWidth: 0.5
+            }}>
+                <Text>{num}</Text>
+            </View>
+            <TouchableOpacity onPress={addQuantity}>
+                <View style={{
+                    backgroundColor: "#9d9fa1",
+                    paddingVertical: 5,
+                    paddingHorizontal: 20,
+                    borderWidth: 0.5,
+                    borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5
+                }}>
+                    <Text>+</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+        </View>
+
+      <TouchableOpacity onPress={addToCart}>
         <View
           style={{
             paddingHorizontal: 30,
@@ -226,6 +288,7 @@ const Product = ({ id, description, price }) => {
             Add to Cart
           </Text>
         </View>
+      </TouchableOpacity>
 
         <View
           style={{
