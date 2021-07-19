@@ -39,7 +39,7 @@ const ShoppingCartScreen = ({ navigation }) => {
 
             <CheckoutTop 
                 totalNumber={data.length} 
-                totalAmount={totalPrice} 
+                totalAmount={totalPrice}
             />
 
             <FlatList 
@@ -52,7 +52,7 @@ const ShoppingCartScreen = ({ navigation }) => {
                         price={item.price}
                         id={item.id}
                         num={item.quantity}
-                    />
+                    /> 
                 )}
             />
 

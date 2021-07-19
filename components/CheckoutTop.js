@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { auth } from '../firebase'
 
-const CheckoutTop = ({ totalNumber, totalAmount }) => {
+const CheckoutTop = ({ image, description, quantity, totalNumber, totalAmount }) => {
 
     const navigation = useNavigation()
 
@@ -31,7 +31,9 @@ const CheckoutTop = ({ totalNumber, totalAmount }) => {
             }}>{`$ ${totalAmount}`}</Text></Text>
 
             <TouchableOpacity onPress={() => {
-                navigation.navigate("CheckOut")
+                navigation.navigate("CheckOut", {
+                    image, description, quantity, totalNumber, totalAmount
+                })
             }}>
                 <View
                     style={{

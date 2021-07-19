@@ -6,20 +6,40 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import countryList from "country-list";
-import {auth} from '../firebase'
+import db, {auth} from '../firebase'
 
 const countries = countryList.getData();
 
-const CheckOutScreen = ({ navigation }) => {
+const CheckOutScreen = ({ navigation, image, description, quantity, totalNumber, totalAmount }) => {
   const [country, setCountry] = useState(countries[0].code);
   const [name, setName] = useState("")
   const [number, setNumber] = useState()
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const submitOrder = async () => {
+    await setLoading(!loading)
+    await db.collection("orders").add({
+      image: image,
+      description: description,
+      quantity: quantity,
+      totalNumber: totalNumber,
+      totalAmount: totalAmount,
+      email: auth?.currentUser?.email,
+      country: country,
+      address: address,
+      name: name,
+      number: number,
+      city: city
+    }).then(() => setLoading(loading))
+  }
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -173,29 +193,25 @@ const CheckOutScreen = ({ navigation }) => {
               }}
             />
 
-            <View
-              style={{
-                paddingHorizontal: 30,
-                paddingVertical: 10,
-                borderRadius: 5,
-                backgroundColor: "#d6b23a",
-                borderWidth: 0.5,
-                borderColor: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 20,
-                marginTop: 20,
-              }}
-            >
-              <Text
+            <TouchableOpacity onPress={submitOrder}>
+              <View
                 style={{
-                  letterSpacing: 1,
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  backgroundColor: "#d6b23a",
+                  borderWidth: 0.5,
+                  borderColor: "black",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 20,
+                  marginTop: 20,
                 }}
               >
-                Check Out
-              </Text>
-            </View>
+                { loading ? <ActivityIndicator size="large" color="#FFF" /> : <Text>Check Out</Text> }
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
     </ScrollView>

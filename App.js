@@ -102,101 +102,16 @@ const HomeNavigator = () => {
         name="SignIn" 
         component={SignInScreen} 
         options={{
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitle: () => null
+          headerShown: false
         }}
       />
       <Stack.Screen 
         name="SignUp" 
         component={SignUpScreen} 
         options={{
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitle: () => null
+          headerShown: false
         }}
       />
-    </Stack.Navigator>
-  )
-}
-
-const ProfileNavigator = () => {
-  const Stack = createStackNavigator()
-  
-  return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="ProfileScreen" 
-        component={ProfileScreen} 
-        options={{
-          title: "Home",
-          headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitleStyle: {
-            color: "#FFF",
-            fontWeight: "bold",
-            letterSpacing: 5
-          }
-        }} 
-      />
-      <Stack.Screen 
-        name="SignIn" 
-        component={SignInScreen} 
-        options={{
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitle: () => null
-        }}
-      />
-    </Stack.Navigator>
-  )
-}
-
-const MenuNavigator = () => {
-  const Stack = createStackNavigator()
-  
-  return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="MenuScreen" 
-        component={MenuScreen} 
-        options={{
-          title: "Home",
-          headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitleStyle: {
-            color: "#FFF",
-            fontWeight: "bold",
-            letterSpacing: 5
-          }
-        }} 
-      />
-      <Stack.Screen 
-        name="SignIn" 
-        component={SignInScreen} 
-        options={{
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitle: () => null
-        }}
-      />
-    </Stack.Navigator>
-  )
-}
-
-const CartNavigator = () => {
-  const Stack = createStackNavigator()
-  
-  return (
-    <Stack.Navigator>
       <Stack.Screen 
         name="ShoppingCart" 
         component={ShoppingCartScreen} 
@@ -213,14 +128,73 @@ const CartNavigator = () => {
           }
         }} 
       />
+    </Stack.Navigator>
+  )
+}
+
+const ProfileNavigator = () => {
+  const Stack = createStackNavigator()
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ProfileScreen" 
+        component={ProfileScreen} 
+        options={{
+          headerShown: false
+        }} 
+      />
       <Stack.Screen 
         name="SignIn" 
         component={SignInScreen} 
         options={{
-          headerStyle: {
-            backgroundColor: "#6bcdfa"
-          },
-          headerTitle: () => null
+          headerShown: false
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const MenuNavigator = () => {
+  const Stack = createStackNavigator()
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="MenuScreen" 
+        component={MenuScreen} 
+        options={{
+          headerShown: false
+        }} 
+      />
+      <Stack.Screen 
+        name="SignIn" 
+        component={SignInScreen} 
+        options={{
+          headerShown: false
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const CartNavigator = () => {
+  const Stack = createStackNavigator()
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ShoppingCart" 
+        component={ShoppingCartScreen} 
+        options={{
+          headerShown: false
+        }} 
+      />
+      <Stack.Screen 
+        name="SignIn" 
+        component={SignInScreen} 
+        options={{
+          headerShown: false
         }}
       />
       <Stack.Screen 

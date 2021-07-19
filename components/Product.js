@@ -40,7 +40,7 @@ const Product = ({ image, description, price }) => {
     })
     await setLoading(loading)
     await show()
-    await navigation.navigate("HomeScreen")
+    await navigation.navigate("ShoppingCart")
   }
 
   const onFlatlistChanged = useCallback(({ viewableItems }) => {
