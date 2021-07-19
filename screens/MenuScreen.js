@@ -1,7 +1,17 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import {auth} from '../firebase'
 
-const MenuScreen = () => {
+const MenuScreen = ({ navigation }) => {
+
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+                if (!authUser) {
+                    navigation.navigate("SignIn");
+                }
+            });
+    }, [auth]);
+    
     return (
         <View>
             <Text>Menu</Text>

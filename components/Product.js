@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions, TouchableOpacity, ActivityIndicator, ToastAndroid } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import CarouselImage from "./CarouselImage";
-import db from '../firebase'
+import db, {auth} from '../firebase'
+import { useNavigation } from "@react-navigation/core";
 
 const Product = ({ image, description, price }) => {
   const [selected, setSelected] = useState("Blue");
   const [data, setData] = useState([])
   const [active, setActive] = useState(0)
   const [num, setNum] = useState(1)
+  const [loading, setLoading] = useState(false);
+
+  const navigation = useNavigation()
 
   const addQuantity = () => {
       setNum(num + 1)
@@ -21,13 +25,21 @@ const Product = ({ image, description, price }) => {
       }
   }
 
-  const addToCart = () => {
-    db.collection("carts").add({
+  const show = () => {
+    ToastAndroid.show("Successfully added to cart!!", ToastAndroid.LONG)
+  }
+
+  const addToCart = async () => {
+    await setLoading(!loading)
+    await db.collection(auth?.currentUser?.email).add({
       image: image,
       description: description,
       price: price,
       quantity: num
     })
+    await setLoading(loading)
+    await show()
+    await navigation.navigate("HomeScreen")
   }
 
   const onFlatlistChanged = useCallback(({ viewableItems }) => {
@@ -280,13 +292,7 @@ const Product = ({ image, description, price }) => {
             marginBottom: 15,
           }}
         >
-          <Text
-            style={{
-              letterSpacing: 1,
-            }}
-          >
-            Add to Cart
-          </Text>
+          {loading ? <ActivityIndicator color="#ffffff" size="small" /> : <Text style={{color: "#FFF", fontWeight: "500"}}>Add to Cart</Text> }
         </View>
       </TouchableOpacity>
 

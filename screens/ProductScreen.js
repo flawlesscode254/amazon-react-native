@@ -1,10 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, View } from 'react-native'
 import Product from '../components/Product'
+import {auth} from '../firebase'
 
-const ProductScreen = ({ route }) => {
+const ProductScreen = ({ route, navigation }) => {
     const { description, price, image} = route.params
 
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+                if (!authUser) {
+                    navigation.navigate("SignIn");
+                }
+            });
+    }, [auth]);
+    
     return (
         <View>
             <Product

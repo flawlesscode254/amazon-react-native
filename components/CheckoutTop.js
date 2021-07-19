@@ -1,10 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
+import { auth } from '../firebase'
 
 const CheckoutTop = ({ totalNumber, totalAmount }) => {
 
     const navigation = useNavigation()
+
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+                if (!authUser) {
+                    navigation.navigate("SignIn");
+                }
+            });
+    }, [auth]);
 
     return (
         <View style={{

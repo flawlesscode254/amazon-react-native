@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,17 +10,24 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import countryList from "country-list";
+import {auth} from '../firebase'
 
 const countries = countryList.getData();
 
-const CheckOutScreen = () => {
+const CheckOutScreen = ({ navigation }) => {
   const [country, setCountry] = useState(countries[0].code);
   const [name, setName] = useState("")
   const [number, setNumber] = useState()
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
 
-  console.log(country);
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+            if (!authUser) {
+                navigation.navigate("SignIn");
+            }
+        });
+}, [auth]);
 
   return (
     <KeyboardAvoidingView 

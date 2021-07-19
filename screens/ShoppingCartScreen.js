@@ -1,14 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, FlatList, ScrollView } from 'react-native'
 import CartItems from '../components/CartItems'
-import db from '../firebase'
+import db, {auth} from '../firebase'
 import CheckoutTop from '../components/CheckoutTop'
 
-const ShoppingCartScreen = () => {
+const ShoppingCartScreen = ({ navigation }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        db.collection("carts").onSnapshot((snapshot) => {
+        auth.onAuthStateChanged((authUser) => {
+                if (!authUser) {
+                    navigation.navigate("SignIn");
+                }
+            });
+    }, [auth]);
+
+    useEffect(() => {
+        db.collection(auth?.currentUser?.email).onSnapshot((snapshot) => {
             setData(snapshot.docs.map(doc => ({
                 id: doc.id,
                 image: doc.data().image,

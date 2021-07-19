@@ -1,13 +1,21 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import Items from '../components/Items'
-import db from '../firebase'
+import db, { auth } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 
 const HomeScreen = () => {
     const [data, setData] = useState([])
 
     const navigation = useNavigation()
+
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+                if (!authUser) {
+                    navigation.navigate("SignIn");
+                }
+            });
+    }, [auth]);
 
     useEffect(() => {
         db.collection("items").onSnapshot((snapshot) => {
