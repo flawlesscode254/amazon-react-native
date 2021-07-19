@@ -10,6 +10,7 @@ import ProductScreen from './screens/ProductScreen'
 import ProfileScreen from './screens/ProfileScreen';
 import ShoppingCartScreen from './screens/ShoppingCartScreen';
 import MenuScreen from './screens/MenuScreen';
+import CheckOutScreen from './screens/CheckOutScreen';
 
 const Stack = createBottomTabNavigator();
 
@@ -55,7 +56,7 @@ const screenOptions = ({ route }) => ({
       <Stack.Navigator tabBarOptions={tabBarOptions} screenOptions={screenOptions}>
         <Stack.Screen name="Home" component={HomeNavigator} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Cart" component={ShoppingCartScreen} />
+        <Stack.Screen name="Cart" component={CartNavigator} />
         <Stack.Screen name="Menu" component={MenuScreen} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -69,10 +70,60 @@ const HomeNavigator = () => {
   
   return (
     <Stack.Navigator>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen 
+        name="HomeScreen" 
+        component={HomeScreen} 
+        options={{
+          title: "Home",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#6bcdfa"
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+            fontWeight: "bold",
+            letterSpacing: 5
+          }
+        }} 
+      />
       <Stack.Screen 
         name="Product" 
         component={ProductScreen} 
+        options={{
+          headerStyle: {
+            backgroundColor: "#6bcdfa"
+          },
+          headerTitle: () => null
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const CartNavigator = () => {
+  const Stack = createStackNavigator()
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ShoppingCart" 
+        component={ShoppingCartScreen} 
+        options={{
+          title: "Home",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#6bcdfa"
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+            fontWeight: "bold",
+            letterSpacing: 5
+          }
+        }} 
+      />
+      <Stack.Screen 
+        name="CheckOut" 
+        component={CheckOutScreen} 
         options={{
           headerStyle: {
             backgroundColor: "#6bcdfa"

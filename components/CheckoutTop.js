@@ -1,7 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 
 const CheckoutTop = ({ totalNumber, totalAmount }) => {
+
+    const navigation = useNavigation()
+
     return (
         <View style={{
             marginVertical: 20,
@@ -16,29 +20,35 @@ const CheckoutTop = ({ totalNumber, totalAmount }) => {
                 fontWeight: "bold",
                 letterSpacing: 1
             }}>{`$ ${totalAmount}`}</Text></Text>
-            <View
-                style={{
-                    paddingHorizontal: 30,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    backgroundColor: "#ffcc00",
-                    borderWidth: 0.5,
-                    borderColor: "black",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginBottom: 15,
-                    marginTop: 15
-                }}
-                >
-                <Text
+
+            <TouchableOpacity onPress={() => {
+                navigation.navigate("CheckOut")
+            }}>
+                <View
                     style={{
-                    letterSpacing: 1,
+                        paddingHorizontal: 30,
+                        paddingVertical: 10,
+                        borderRadius: 5,
+                        backgroundColor: "#ffcc00",
+                        borderWidth: 0.5,
+                        borderColor: "black",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: 15,
+                        marginTop: 15
                     }}
-                >
-                    Proceed To Checkout
-                </Text>
-            </View>
+                    >
+                    <Text
+                        style={{
+                        letterSpacing: 1,
+                        }}
+                    >
+                        Proceed To Checkout
+                    </Text>
+                </View>
+            </TouchableOpacity>
+            
         </View>
     )
 }
