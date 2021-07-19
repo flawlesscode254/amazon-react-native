@@ -35,7 +35,8 @@ const Product = ({ image, description, price }) => {
       image: image,
       description: description,
       price: price,
-      quantity: num
+      quantity: num,
+      colour: selected
     })
     await setLoading(loading)
     await show()

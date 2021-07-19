@@ -1,9 +1,17 @@
-import React from 'react'
-import { StyleSheet, Text, View, ImageBackground } from 'react-native'
+import React, {useState} from 'react'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
 import CartQuantity from './CartQuantity'
+import db, {auth} from '../firebase'
 
 const CartItems = ({ image, description, price, id, num }) => {
+    const [loading, setLoading] = useState(false)
+
+    const goDelete = async () => {
+        await setLoading(!loading)
+        await db.collection(auth?.currentUser?.email).doc(id).delete().then(() => setLoading(loading))
+    }
+
     return (
         <View style={{
             marginHorizontal: 15,
@@ -74,6 +82,13 @@ const CartItems = ({ image, description, price, id, num }) => {
                 
             </View>
         </View>
+
+        <TouchableOpacity onPress={goDelete} style={{
+            marginTop: 15,
+            marginLeft: 10
+        }}>
+            {loading ? <ActivityIndicator size="large" color="red" /> : <Ionicons name="trash-bin-outline" color="red" size={25} />}
+        </TouchableOpacity>
 
         <View style={{
             marginTop: 10
