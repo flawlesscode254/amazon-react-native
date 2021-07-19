@@ -1,19 +1,82 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import Quantity from "./Quantity";
+import CarouselImage from "./CarouselImage";
+import db from '../firebase'
 
-const Product = () => {
+const Product = ({ id, description, price }) => {
   const [selected, setSelected] = useState("Blue");
+  const [data, setData] = useState([])
+  const [active, setActive] = useState(0)
+
+  const onFlatlistChanged = useCallback(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setActive(viewableItems[0].index || 0)
+    }
+  }, [])
+
+  useEffect(() => {
+    db.collection("images").onSnapshot((snapshot) => {
+      setData(snapshot.docs.map(doc => ({
+          id: doc.id,
+          image: doc.data().image
+      })))
+  })
+  }, [])
 
   return (
-    <View
+    <ScrollView
+      showsVerticalScrollIndicator={false}
       style={{
         marginVertical: 10,
-        marginHorizontal: 15,
-      }}
-    >
+        marginHorizontal: 15
+      }}>
+
+        <View style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <FlatList 
+          data={data}
+          viewabilityConfig={{
+            viewAreaCoveragePercentThreshold: 50
+          }}
+          onViewableItemsChanged={onFlatlistChanged}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={Dimensions.get("window").width - 30}
+          snapToAlignment={"center"}
+          decelerationRate={"fast"}
+          keyExtractor={(item) => item.id}
+          renderItem={({item}) => (
+            <CarouselImage 
+              image={item.image}
+            />
+          )}
+        />
+        <View style={{
+          flexDirection: "row",
+          marginTop: 20,
+          marginBottom: 10
+        }}>
+          {data.map((image, index) => (
+            <View style={{
+              borderWidth: 0.5,
+              height: 10,
+              width: 10,
+              borderRadius: 999,
+              marginRight: 15,
+              backgroundColor: index === active ? "gray" : "#FFF"
+            }} />
+          ))}
+        </View>
+        
+        </View>
+
+
       <View>
         <Text
           style={{
@@ -21,7 +84,7 @@ const Product = () => {
             marginBottom: 15,
           }}
         >
-          $94.00
+          {`$ ${price}`}
         </Text>
 
         <Text
@@ -56,15 +119,7 @@ const Product = () => {
             marginBottom: 15,
           }}
         >
-          Available at a lower price from{" "}
-          <Text
-            style={{
-              color: "#0c8cb0",
-            }}
-          >
-            other sellers
-          </Text>{" "}
-          that may not offer Prime shipping
+          {description}
         </Text>
 
         <Text
@@ -194,8 +249,9 @@ const Product = () => {
             Buy Now
           </Text>
         </View>
+
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

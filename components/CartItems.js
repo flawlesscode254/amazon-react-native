@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View, ImageBackground } from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
-import Quantity from './Quantity'
+import CartQuantity from './CartQuantity'
 
-const Items = ({ image, description, price }) => {
+const CartItems = ({ image, description, price, id, num }) => {
     return (
         <View style={{
             marginHorizontal: 15,
@@ -67,7 +67,7 @@ const Items = ({ image, description, price }) => {
                     <Ionicons name="star" size={25} color="#e47911" />
                     <Ionicons name="star-half" size={25} color="#e47911" />
                 </View>
-               <Text style={{
+                <Text style={{
                     fontWeight: "bold",
                     fontSize: 20
                 }}>{`$ ${price}`}</Text>
@@ -75,10 +75,16 @@ const Items = ({ image, description, price }) => {
             </View>
         </View>
 
+        <View style={{
+            marginTop: 10
+        }}>
+            <CartQuantity id={id} num={num} />
+        </View>
+
         </View>
     )
 }
 
-export default Items
+export default CartItems
 
 const styles = StyleSheet.create({})

@@ -1,17 +1,22 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import db from '../firebase'
+import firebase from 'firebase'
 
-const Quantity = () => {
-    const [num, setNum] = useState(0)
+const CartQuantity = ({ id, num }) => {
+    const increment = firebase.firestore.FieldValue.increment(1)
+    const decrement = firebase.firestore.FieldValue.increment(-1)
 
     const addQuantity = () => {
-        setNum(num + 1)
+        db.collection("carts").doc(id).update({
+            quantity: increment
+        })
     }
 
     const minusQuantity = () => {
-        if (num !== 0) {
-            setNum(num - 1)
-        }
+        db.collection("carts").doc(id).update({
+            quantity: decrement
+        })
     }
 
     return (
@@ -61,6 +66,6 @@ const Quantity = () => {
     )
 }
 
-export default Quantity
+export default CartQuantity
 
 const styles = StyleSheet.create({})

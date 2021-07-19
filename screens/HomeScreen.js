@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, FlatList, View } from 'react-native'
+import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
 import Items from '../components/Items'
 import db from '../firebase'
+import { useNavigation } from '@react-navigation/core'
 
 const HomeScreen = () => {
     const [data, setData] = useState([])
+
+    const navigation = useNavigation()
 
     useEffect(() => {
         db.collection("items").onSnapshot((snapshot) => {
@@ -18,19 +21,25 @@ const HomeScreen = () => {
     }, [])
 
     return (
-        <View>
+        
             <FlatList 
                 data={data}
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => (
+                <TouchableOpacity onPress={() => navigation.navigate("Product", {
+                    id: item.id,
+                    image: item.image,
+                    description: item.description,
+                    price: item.price
+                })}>
                     <Items 
                         image={item.image}
                         description={item.description}
                         price={item.price}
                     />
+                </TouchableOpacity>
                 )}
             />
-        </View>
     )
 }
 

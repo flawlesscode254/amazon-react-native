@@ -1,11 +1,17 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Product from '../components/Product'
 
-const ProductScreen = () => {
+const ProductScreen = ({ route }) => {
+    const {id, description, price} = route.params
+
     return (
         <View>
-            <Product />
+            <Product 
+                id={id}
+                description={description}
+                price={price}
+            />
         </View>
     )
 }
